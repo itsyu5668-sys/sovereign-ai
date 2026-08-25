@@ -1,0 +1,17 @@
+name: Keep Render instance warm
+
+# Render's free tier spins the service down after ~15 min idle, which makes
+# the first CLI call afterwards hang for 30-60s. Ping /health every 10 min so
+# real users rarely hit a cold start. Remove this once the service moves to a
+# paid (always-on) plan.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -sf --max-time 60 https://sovereign-ai-7ml9.onrender.com/health
