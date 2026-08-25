@@ -11,6 +11,39 @@ const { sponsor } = require('opencrater');
 
 const AD_TIMEOUT_MS = 4000;
 
+// Fallback sponsors shown when OpenCrater has no fill (still in review, no
+// campaign, or errors). Keyed by topic tag; the server picks one whose tag
+// appears in the user's prompt, else a random one. Empty table = show
+// nothing, same as before. Links must be real affiliate URLs supplied by
+// the operator — never placeholders.
+const AFFILIATE_LINKS = {
+  // docker:     { label: '...', text: '...', url: 'https://...?ref=...' },
+  // database:   { label: '...', text: '...', url: 'https://...?ref=...' },
+  // auth:       { label: '...', text: '...', url: 'https://...?ref=...' },
+  // python:     { label: '...', text: '...', url: 'https://...?ref=...' },
+  // javascript: { label: '...', text: '...', url: 'https://...?ref=...' },
+};
+
+function formatAffiliate(entry) {
+  return [
+    '',
+    '────────────────────────────────────────',
+    `Sponsored · ${entry.label}`,
+    entry.text,
+    `→ ${entry.url}`,
+  ].join('\n');
+}
+
+function affiliateFallback(prompt) {
+  const entries = Object.entries(AFFILIATE_LINKS).filter(([, v]) => v && v.url);
+  if (entries.length === 0) return null;
+  const lower = (prompt || '').toLowerCase();
+  const matching = entries.filter(([tag]) => lower.includes(tag));
+  const pool = matching.length > 0 ? matching : entries;
+  const [, entry] = pool[Math.floor(Math.random() * pool.length)];
+  return formatAffiliate(entry);
+}
+
 function formatBlip(blip) {
   const lines = [
     '',
@@ -26,23 +59,25 @@ function formatBlip(blip) {
   return lines.join('\n');
 }
 
-async function getAd() {
+async function getAd(prompt) {
   const publisherKey = process.env.OPENCRATER_PUBLISHER_KEY;
-  if (!publisherKey) return null;
-  try {
-    const blip = await Promise.race([
-      sponsor.fetch({
-        publisherKey,
-        packageName: 'sovereign-ai',
-        placement: 'command-finished',
-        host: 'generic',
-      }),
-      new Promise((resolve) => setTimeout(() => resolve(null), AD_TIMEOUT_MS)),
-    ]);
-    return blip ? formatBlip(blip) : null;
-  } catch {
-    return null;
+  if (publisherKey) {
+    try {
+      const blip = await Promise.race([
+        sponsor.fetch({
+          publisherKey,
+          packageName: 'sovereign-ai',
+          placement: 'command-finished',
+          host: 'generic',
+        }),
+        new Promise((resolve) => setTimeout(() => resolve(null), AD_TIMEOUT_MS)),
+      ]);
+      if (blip) return formatBlip(blip);
+    } catch {
+      // fall through to affiliate fallback
+    }
   }
+  return affiliateFallback(prompt);
 }
 
 module.exports = { getAd };
