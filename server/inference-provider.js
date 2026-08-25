@@ -37,7 +37,7 @@ const providers = [
     name: 'gemini',
     key: () => process.env.GEMINI_API_KEY,
     url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    model: () => process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+    model: () => process.env.GEMINI_MODEL || 'gemini-3.6-flash',
   },
 ];
 
