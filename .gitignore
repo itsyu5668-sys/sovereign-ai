@@ -1,0 +1,4 @@
+node_modules/
+.env
+quota-data.json
+quota-data.json.tmp

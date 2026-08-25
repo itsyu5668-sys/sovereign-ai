@@ -1,0 +1,16 @@
+{
+  "name": "sovereign-ai-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SovereignAI backend: quota-gated Groq answers with an OpenCrater Blip appended.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "groq-sdk": "^0.5.0",
+    "opencrater": "^1.4.8"
+  }
+}
