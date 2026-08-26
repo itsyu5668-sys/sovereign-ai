@@ -36,6 +36,19 @@ server/   Fastify backend: quota, inference fallback chain, ad fetch
 cli/      The `sovereign-ai` command
 ```
 
+## Install & use (users)
+
+```
+npm install -g sovereign-ai
+sovereign-ai "how do I undo a git commit"
+```
+
+The CLI ships with the production server URL built in — no setup needed.
+Power users can override it with `SOVEREIGN_AI_SERVER_URL`. If you hit the
+daily limit, set your own `GROQ_API_KEY` and the CLI bypasses the server
+entirely — no quota, no ads.
+
+## Development
+
 Server: `cd server && cp .env.example .env && npm install && npm start`
-CLI: `cd cli && npm install && npm link`, then set
-`SOVEREIGN_AI_SERVER_URL` if not using the default `http://localhost:3000`.
+CLI: `cd cli && npm install && npm link`

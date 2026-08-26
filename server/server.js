@@ -26,8 +26,7 @@ app.post('/api/v1/query', async (request, reply) => {
       error: 'quota_exceeded',
       message:
         `You've used all ${quota.limit} free queries for today. ` +
-        'To keep going, set your own Groq API key (free at console.groq.com): ' +
-        'export GROQ_API_KEY=your_key — the CLI will then use your key directly with no daily limit.',
+        'They reset at midnight UTC. Heavy user? Set your own GROQ_API_KEY for no daily limit.',
       remaining: 0,
       limit: quota.limit,
     });

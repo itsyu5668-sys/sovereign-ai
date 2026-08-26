@@ -3,7 +3,7 @@
 
 const { getUserId } = require('../user-id');
 
-const SERVER_URL = (process.env.SOVEREIGN_AI_SERVER_URL || 'http://localhost:3000').replace(/\/+$/, '');
+const SERVER_URL = (process.env.SOVEREIGN_AI_SERVER_URL || 'https://sovereign-ai-7ml9.onrender.com').replace(/\/+$/, '');
 const REQUEST_TIMEOUT_MS = 60000;
 
 function usage() {
