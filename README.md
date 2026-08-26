@@ -21,13 +21,11 @@ OpenCrater, which is what keeps the service free.
 ## Privacy notes
 
 - **Gemini fallback**: if your query is answered by the Gemini fallback
-  specifically (only when Groq and Cerebras are both unavailable), the
-  prompt may be used by Google to improve their products — that's Google's
-  free-tier terms, not ours. Groq and Cerebras answers are not used for
-  training under their respective free tiers. Queries are anonymous
+  specifically, the  prompt may be used by Google to improve their products that's Google's
+  free-tier terms, not ours.Queries are anonymous
   (identified only by a random per-machine ID), but don't paste secrets
   into prompts regardless.
-- This tool is supported by unobtrusive Blips via OpenCrater.
+- This tool is supported by unobtrusive Blips which we use to fund the credits
 
 ## Development
 
